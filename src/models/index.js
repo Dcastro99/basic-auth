@@ -26,7 +26,7 @@ const sequelizeOptions =
     : {};
 
 // turn schemas into Sequelize models
-const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions);
+const sequelize = new Sequelize('sqlite::memory:', sequelizeOptions);
 const FoodModel = foodSchema(sequelize, DataTypes);
 const ClothesModel = clothesSchema(sequelize, DataTypes);
 const RecipeModel = recipeSchema(sequelize, DataTypes);

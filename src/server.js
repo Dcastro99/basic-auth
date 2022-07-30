@@ -1,13 +1,16 @@
 'use strict';
 
 // 3rd Party Dependencies (modules)
+require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+
 
 // Our own custom modules
 const notFoundHandler = require('./error-handlers/404.js');
 const errorHandler = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
-
+const authRoutes = require('./auth/auth.js');
 const foodRoutes = require('./routes/food.js');
 const clothesRoutes = require('./routes/clothes.js');
 
@@ -15,11 +18,18 @@ const app = express();
 
 // Express Global Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
+
 
 // Our own Global Middleware
 app.use(logger);
 
+
+
 // Use our routes from the routing module...
+app.use(authRoutes);
 app.use(foodRoutes);
 app.use(clothesRoutes);
 
