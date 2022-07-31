@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 const port = process.env.PORT ?? 3000;
-
+console.log('PORT', process.env.port);
 const server = require('./src/server.js');
 const { db } = require('./src/models/index.js');
 const { seed } = require('./src/models/seed');
