@@ -10,7 +10,7 @@ const cors = require('cors');
 const notFoundHandler = require('./error-handlers/404.js');
 const errorHandler = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
-const authRoutes = require('./auth/auth.js');
+const authRoutes = require('./middleware/auth/route.js');
 const foodRoutes = require('./routes/food.js');
 const clothesRoutes = require('./routes/clothes.js');
 

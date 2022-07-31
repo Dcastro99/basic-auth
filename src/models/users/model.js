@@ -1,58 +1,70 @@
 const bcrypt = require('bcrypt');
 const base64 = require('base-64');
+const HASH_STRENGTH = 10;
 
 // const Users = require('./models/auth/user.js');
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('postgres://localhost:5432/dcastro');
+// const { Sequelize, DataTypes } = require('sequelize');
 
 
 
-const User = sequelize.define('user', {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
 
-//From sequelize Docs
-User.beforeCreate(async (user, options) => {
-  const hashedPassword = await hashPassword(user.password);
-  user.password = hashedPassword;
-});
+const userModel = (sequelize, DataTypes) => {
+  const model = sequelize.define('User', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
-async function hashPassword(password) {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  return hashedPassword;
-}
-
-User.authenticate = async function (req, res, next) {
-  console.log('authenticate');
-  let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
-  let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
-  let decodedString = base64.decode(encodedString); // "username:password"
-  let [username, password] = decodedString.split(':'); // username, password
-
-  const user = await User.findOne({ where: { username } });
+  });
 
 
+  //From sequelize Docs
+  model.beforeCreate(async (user, options) => {
+    console.log('GOT HERE');
+    const hashedPassword = await hashPassword(user.password, HASH_STRENGTH);
+    user.password = hashedPassword;
+  });
 
-  const valid = await bcrypt.compare(password, user.password);
-  if (valid) {
-
-    return user;
-
-  } else {
-    console.log('ERROR NEXT');
-    next(new Error('Invalid User!'));
+  async function hashPassword(password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return hashedPassword;
   }
 
+
+  model.authenticate = async function (req, res, next) {
+    try {
+      console.log('authenticate');
+      let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
+      let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
+      let decodedString = base64.decode(encodedString); // "username:password"
+      let [username, password] = decodedString.split(':'); // username, password
+
+      console.log('data: username', username, password);
+      const user = await model.findOne({ where: { username } });
+      console.log('BOB WAS HERE', user);
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
+
+        res.status(200).send(user);
+        return user;
+      }
+    } catch (e) {
+      console.log('WHAT!!!', e);
+    }
+    console.log('WERE HERE');
+    res
+      .status(403)
+      .send(
+        'Invalid username/password. Too bad we don\'t have an account recovery mechanism.',
+      );
+  };
+  return model;
 };
 
-// this creates databse table with column names
-User.sync();
 
-module.exports = User;
+module.exports = userModel;
