@@ -17,10 +17,11 @@
     "base-64": "^1.0.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "eslint": "^7.14.0",
     "express": "^4.17.1",
     "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.19",
@@ -29,6 +30,6 @@
     "sequelize": "^6.21.3",
     "sequelize-cli": "^6.2.0",
     "sqlite3": "^5.0.10",
-    "supertest": "^6.0.1"
+    "supertest": "^6.2.4"
   }
 }
