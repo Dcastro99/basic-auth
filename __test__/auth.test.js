@@ -23,17 +23,11 @@ describe('web server authentication', () => {
     expect(response.body.password.startsWith('$2b$10$')).toBe(true);
     expect(response.body.password.length).toBeGreaterThan(40);
     expect(response.body.password).not.toEqual('test password');
-    // Run it once, get the error, and then
-    // expect(response.body.password).toEqual(
-    //   '$2b$10$IpbYE3WRzNPJn.t79nQ4E.9nYeOifrj0Od0vWZU2vxAsXsGEzz2xm'
-    // );
-    // expect(response.body.password).toEqual(
-    //   await bcrypt.hash('test password', 10)
-    // );
+
     expect(response.body.role).toBe('user');
   });
 
-  it.only('signs in users', async () => {
+  it('signs in users', async () => {
     await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
@@ -44,7 +38,7 @@ describe('web server authentication', () => {
       .send({ username: 'test user', password: 'test password' });
 
     expect(response.status).toBe(200);
-    // console.log('YOMAMA', response.body);
+    console.log('YOMAMA', response.body);
     expect(response.body.user.username).toEqual('test user');
     expect(response.body.user.password.startsWith('$2b$10$')).toBe(true);
   });
