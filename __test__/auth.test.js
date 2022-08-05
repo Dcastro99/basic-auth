@@ -4,6 +4,7 @@ const { server } = require('../src/server.js');
 const { db } = require('../src/models/index.js');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
+const base64 = require('base-64');
 // const bcrypt = require('bcrypt');
 
 describe('web server authentication', () => {
@@ -14,20 +15,16 @@ describe('web server authentication', () => {
   it('signs up users', async () => {
     const response = await mockRequest
       .post('/signup')
-      .send({ username: 'test user', password: 'test password' });
+      .send({ username: 'test user', password: 'test password', role: 'user' });
+
     expect(response.status).toBe(201);
+    console.log('))))))))', response.body.username);
     expect(response.body.username).toEqual('test user');
 
     expect(response.body.password.startsWith('$2b$10$')).toBe(true);
     expect(response.body.password.length).toBeGreaterThan(40);
     expect(response.body.password).not.toEqual('test password');
-    // Run it once, get the error, and then
-    // expect(response.body.password).toEqual(
-    //   '$2b$10$IpbYE3WRzNPJn.t79nQ4E.9nYeOifrj0Od0vWZU2vxAsXsGEzz2xm'
-    // );
-    // expect(response.body.password).toEqual(
-    //   await bcrypt.hash('test password', 10)
-    // );
+
     expect(response.body.role).toBe('user');
   });
 
@@ -35,27 +32,31 @@ describe('web server authentication', () => {
     await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
+    const encodedStr = base64.encode('test user:test password');
     const response = await mockRequest
       .post('/signin')
+      .set('authorization', `Basic ${encodedStr}`)
       .send({ username: 'test user', password: 'test password' });
 
     expect(response.status).toBe(200);
-    expect(response.body.username).toEqual('test user');
-    expect(response.body.password.startsWith('$2b$10$')).toBe(true);
+    console.log('YOMAMA', response.body);
+    expect(response.body.user.username).toEqual('test user');
+    expect(response.body.user.password.startsWith('$2b$10$')).toBe(true);
   });
 
-  it.only('enforces unique users', async () => {
+  it('enforces unique users', async () => {
     const res1 = await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
-    // console.log(res1.body);
+    // console.log('AUTH_TEST_1', res1.body);
     expect(res1.status).toBe(201);
 
     const response = await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
 
-    // console.log(response.body);
+    // console.log('AUTH-TEST-2', response.status);
+    // console.log('AUTH-TEST-2', response.body);
     expect(response.status).toBe(500);
   });
 });

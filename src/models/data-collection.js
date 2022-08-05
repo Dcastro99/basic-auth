@@ -10,17 +10,15 @@ class Collection {
   }
 
   async create(obj, options) {
-    try {
-      // create the new model
-      let record = await this.model.create(obj);
 
-      if (options) {
-        if (options.association) this.createAssociate(record, options.association);
-      }
-      return record;
-    } catch (e) {
-      return e;
+    // create the new model
+    let record = await this.model.create(obj);
+
+    if (options) {
+      if (options.association) this.createAssociate(record, options.association);
     }
+    return record;
+
   }
 
   async read(id) {
