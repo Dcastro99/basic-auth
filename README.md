@@ -1,4 +1,4 @@
-> # Basic Auth LAB - 06
+> # Basic Auth LAB - 07
 
 ## Deployment Test
 
@@ -11,6 +11,10 @@
 ### Setup
 
 `.env` **requirements**
+
+- NODE_ENV
+- DATABASE_URL
+- SECRET
 
 PORT - 3000
 
@@ -41,4 +45,4 @@ Unit Tests: npm run test
 
 (Created with Miro)
 
-![UML](lab6-whiteboard.png)
+![UML](LAB7-WHITEBOARD.png)
