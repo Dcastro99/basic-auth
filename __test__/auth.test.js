@@ -39,7 +39,7 @@ describe('web server authentication', () => {
       .send({ username: 'test user', password: 'test password' });
 
     expect(response.status).toBe(200);
-    // console.log('YOMAMA', response.body);
+    console.log('YOMAMA', response.body);
     expect(response.body.user.username).toEqual('test user');
     expect(response.body.user.password.startsWith('$2b$10$')).toBe(true);
   });

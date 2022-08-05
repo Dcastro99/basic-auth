@@ -13,7 +13,6 @@ async function validateToken(req, res, next) {
     console.log('STEP-4444', [username, password]);
 
     const user = await Users.model.findOne({ where: { username } });
-    console.log();
     console.log('MADE IT HOME', { username, password });
     // const user = await model.findOne({where:{ username: req.body.username }});
     const valid = await bcrypt.compare(password, user.password);
