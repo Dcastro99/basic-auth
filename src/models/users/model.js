@@ -1,6 +1,6 @@
 const SECRET = process.env.SECRET;
 const bcrypt = require('bcrypt');
-const base64 = require('base-64');
+
 const jwt = require('jsonwebtoken');
 const HASH_STRENGTH = 10;
 
@@ -45,35 +45,26 @@ const userModel = (sequelize, DataTypes) => {
   model.beforeCreate(async (user, options) => {
     const hashedPassword = await bcrypt.hash(user.password, HASH_STRENGTH);
     user.password = hashedPassword;
-    user.role;
+    user.role = 'user';
   });
 
 
+  // model.authenticate = async function (req, res, next) {
+  //   try {
 
-  model.authenticate = async function (req, res, next) {
-    try {
-      console.log('authenticate', req.headers);
-      let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
-      let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
-      let decodedString = base64.decode(encodedString); // "username:password"
-      let [username, password] = decodedString.split(':'); // username, password
-      const user = await model.findOne({ where: { username } });
-      const valid = await bcrypt.compare(password, user.password);
-      if (valid) {
 
-        // res.status(200).send({ user, token: user.token });
-        return user;
-      }
-    } catch (e) {
-      // console.log('WHAT!!!', e);
-    }
+  //     //CHANGING
 
-    throw new Error('Invalid username/password. Too bad we don\'t have an account recovery mechanism.');
-    // res
-    //   .send(
-    //     'Invalid username/password. Too bad we don\'t have an account recovery mechanism.',
-    //   );
-  };
+  //   } catch (e) {
+  //     console.log('WHAT!!!', e);
+  //   }
+  //   // console.log('BOOOOOOO', res);
+  //   throw new Error('Invalid username/password. Too bad we don\'t have an account recovery mechanism.');
+  //   // res
+  //   //   .send(
+  //   //     'Invalid username/password. Too bad we don\'t have an account recovery mechanism.',
+  //   //   );
+  // };
 
   return model;
 };

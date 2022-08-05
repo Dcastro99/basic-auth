@@ -18,6 +18,7 @@ describe('web server authentication', () => {
       .send({ username: 'test user', password: 'test password', role: 'user' });
 
     expect(response.status).toBe(201);
+    console.log('))))))))', response.body.username);
     expect(response.body.username).toEqual('test user');
 
     expect(response.body.password.startsWith('$2b$10$')).toBe(true);

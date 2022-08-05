@@ -14,6 +14,7 @@ const authRoutes = require('./middleware/auth/route.js');
 const foodRoutes = require('./routes/food.js');
 const clothesRoutes = require('./routes/clothes.js');
 const userRoutes = require('./routes/user.js');
+// const validateToken = require('./middleware/auth/auth.js');
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(cors());
 
 // Our own Global Middleware
 app.use(logger);
-
+// app.use(validateToken);
 
 
 // Use our routes from the routing module...
