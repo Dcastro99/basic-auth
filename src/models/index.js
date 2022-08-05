@@ -50,12 +50,12 @@ const UserModel = userSchema(sequelize, DataTypes);
 
 // create our Collections and associations
 const FoodCollection = new Collection(FoodModel);
-// console.log('HERE F', FoodModel);
+
 const ClothesCollection = new Collection(ClothesModel);
 const RecipeCollection = new Collection(RecipeModel);
 FoodCollection.belongsToManyThrough(RecipeCollection, FoodRecipeModel);
 RecipeCollection.belongsToManyThrough(FoodCollection, FoodRecipeModel);
-// console.log('HERE', UserModel);
+
 const UsersCollection = new Collection(UserModel);
 
 module.exports = {
