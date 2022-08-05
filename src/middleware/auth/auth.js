@@ -10,13 +10,13 @@ async function validateToken(req, res, next) {
     let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
     let decodedString = base64.decode(encodedString); // "username:password"
     let [username, password] = decodedString.split(':'); // username, password
-    console.log('STEP-4444', [username, password]);
+    // console.log('STEP-4444', [username, password]);
 
     const user = await Users.model.findOne({ where: { username } });
-    console.log('MADE IT HOME', { username, password });
+    // console.log('MADE IT HOME', { username, password });
     // const user = await model.findOne({where:{ username: req.body.username }});
     const valid = await bcrypt.compare(password, user.password);
-    console.log('OHMMMGEEE', valid);
+    // console.log('OHMMMGEEE', valid);
     if (valid) {
       req.user = user;
       // return user;

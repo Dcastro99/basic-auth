@@ -40,7 +40,7 @@ async function signInUser(req, res, next) {
 
 
   } catch (error) {
-    // console.log('errorororor ', error);
+    console.log('errorororor ', error);
     res.status(500).send(`Cannot create user ${req.body.username}`);
   }
 
