@@ -5,7 +5,7 @@ const { db } = require('../src/models/index.js');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
 const base64 = require('base-64');
-// const bcrypt = require('bcrypt');
+
 
 describe('web server authentication', () => {
   beforeEach(async () => {
@@ -18,13 +18,10 @@ describe('web server authentication', () => {
       .send({ username: 'test user', password: 'test password', role: 'user' });
 
     expect(response.status).toBe(201);
-    console.log('))))))))', response.body.username);
     expect(response.body.username).toEqual('test user');
-
     expect(response.body.password.startsWith('$2b$10$')).toBe(true);
     expect(response.body.password.length).toBeGreaterThan(40);
     expect(response.body.password).not.toEqual('test password');
-
     expect(response.body.role).toBe('user');
   });
 
@@ -39,7 +36,6 @@ describe('web server authentication', () => {
       .send({ username: 'test user', password: 'test password' });
 
     expect(response.status).toBe(200);
-    console.log('YOMAMA', response.body);
     expect(response.body.user.username).toEqual('test user');
     expect(response.body.user.password.startsWith('$2b$10$')).toBe(true);
   });
@@ -48,15 +44,13 @@ describe('web server authentication', () => {
     const res1 = await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
-    // console.log('AUTH_TEST_1', res1.body);
+
     expect(res1.status).toBe(201);
 
     const response = await mockRequest
       .post('/signup')
       .send({ username: 'test user', password: 'test password' });
 
-    // console.log('AUTH-TEST-2', response.status);
-    // console.log('AUTH-TEST-2', response.body);
     expect(response.status).toBe(500);
   });
 });

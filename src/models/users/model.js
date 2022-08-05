@@ -1,13 +1,7 @@
 const SECRET = process.env.SECRET;
 const bcrypt = require('bcrypt');
-
 const jwt = require('jsonwebtoken');
 const HASH_STRENGTH = 10;
-
-// const Users = require('./models/auth/user.js');
-// const { Sequelize, DataTypes } = require('sequelize');
-
-
 
 
 const userModel = (sequelize, DataTypes) => {
@@ -48,23 +42,6 @@ const userModel = (sequelize, DataTypes) => {
     user.role = 'user';
   });
 
-
-  // model.authenticate = async function (req, res, next) {
-  //   try {
-
-
-  //     //CHANGING
-
-  //   } catch (e) {
-  //     console.log('WHAT!!!', e);
-  //   }
-  //   // console.log('BOOOOOOO', res);
-  //   throw new Error('Invalid username/password. Too bad we don\'t have an account recovery mechanism.');
-  //   // res
-  //   //   .send(
-  //   //     'Invalid username/password. Too bad we don\'t have an account recovery mechanism.',
-  //   //   );
-  // };
 
   return model;
 };
