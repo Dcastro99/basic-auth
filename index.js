@@ -11,7 +11,7 @@ db.sync()
   .then(async () => {
     if (process.env.NODE_ENV === 'dev') {
       await db.sync({ force: false });
-      // await seed();
+      await seed();
     }
     server.start(port);
   })
