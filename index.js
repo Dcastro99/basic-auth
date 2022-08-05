@@ -9,10 +9,10 @@ const { seed } = require('./src/models/seed');
 
 db.sync()
   .then(async () => {
-    if (process.env.NODE_ENV === 'dev') {
-      await db.sync({ force: false });
-      await seed();
-    }
+    // if (process.env.NODE_ENV === 'dev') {
+    await db.sync({ force: false });
+    await seed();
+    // }
     server.start(port);
   })
   .catch(console.error);
