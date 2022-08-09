@@ -19,5 +19,6 @@ jobs:
       - run: npm install
       - run: npm test
         env:
-          SECRET: 'ALKI'
+          SECRET: gha
+          JWTEXPIRES: '15m'
           CI: true
