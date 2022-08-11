@@ -50,7 +50,6 @@ const UserModel = userSchema(sequelize, DataTypes);
 
 // create our Collections and associations
 const FoodCollection = new Collection(FoodModel);
-
 const ClothesCollection = new Collection(ClothesModel);
 const RecipeCollection = new Collection(RecipeModel);
 FoodCollection.belongsToManyThrough(RecipeCollection, FoodRecipeModel);
