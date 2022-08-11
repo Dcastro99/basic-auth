@@ -3,7 +3,7 @@ const SECRET = process.env.SECRET;
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../../models/index.js');
-const validateToken = require('../../middleware/auth/auth.js');
+
 
 
 const router = express.Router();
@@ -50,7 +50,7 @@ router.get('/secret', (req, res, next) => {
 router.post('/signup', createUser);
 
 //Middleware SignIn
-router.post('/signin', validateToken, signInUser);
+router.post('/signin', signInUser);
 
 
 module.exports = router;

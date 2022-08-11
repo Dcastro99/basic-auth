@@ -4,7 +4,6 @@ const { server } = require('../src/server.js');
 const { db } = require('../src/models/index.js');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
-const base64 = require('base-64');
 
 
 describe('web server authentication', () => {
@@ -26,18 +25,19 @@ describe('web server authentication', () => {
   });
 
   it('signs in users', async () => {
-    await mockRequest
+    const res = await mockRequest
       .post('/signup')
-      .send({ username: 'test user', password: 'test password' });
-    const encodedStr = base64.encode('test user:test password');
+      .send({ username: 'test user', password: 'test password', role: 'admin' });
+    const signupRes = JSON.parse(res.text);
+    console.log('hahaha', signupRes.token);
+
     const response = await mockRequest
       .post('/signin')
-      .set('authorization', `Basic ${encodedStr}`)
-      .send({ username: 'test user', password: 'test password' });
+      .send({ username: 'test user', password: 'test password' }).set('authorization', `${signupRes.token}`);
 
+    console.log('hehehehe ', response.body);
     expect(response.status).toBe(200);
     expect(response.body.user.username).toEqual('test user');
-    expect(response.body.user.password.startsWith('$2b$10$')).toBe(true);
   });
 
   it('enforces unique users', async () => {

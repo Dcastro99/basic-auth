@@ -11,10 +11,15 @@ const notFoundHandler = require('./error-handlers/404.js');
 const errorHandler = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
 const authRoutes = require('./middleware/auth/route.js');
-const foodRoutes = require('./routes/food.js');
-const clothesRoutes = require('./routes/clothes.js');
-const userRoutes = require('./routes/user.js');
-// const validateToken = require('./middleware/auth/auth.js');
+// const foodRoutes = require('./routes/food.js');
+// const clothesRoutes = require('./routes/clothes.js');
+// const userRoutes = require('./routes/user.js');
+
+const validateToken = require('./middleware/auth/auth');
+
+const { Food, Clothes, Recipe, Users } = require('./models/index');
+
+const v1Router = require('./routes/v1');
 
 const app = express();
 
@@ -27,14 +32,16 @@ app.use(cors());
 
 // Our own Global Middleware
 app.use(logger);
-// app.use(validateToken);
+app.use(validateToken);
 
 
 // Use our routes from the routing module...
 app.use(authRoutes);
-app.use(foodRoutes);
-app.use(clothesRoutes);
-app.use(userRoutes);
+// app.use(foodRoutes);
+// app.use(clothesRoutes);
+// app.use(userRoutes);
+
+app.use('/v1', v1Router([Food, Clothes, Recipe, Users]));
 
 // Our Error Handlers -- need to be the last things defined!
 // These use the external modules we required above

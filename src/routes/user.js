@@ -1,33 +1,34 @@
-'use strict';
+// 'use strict';
 
-const express = require('express');
+// const express = require('express');
 
-const usersCollection = require('../models/index.js').Users;
+// const usersCollection = require('../models/index.js').Users;
 
-// const app = express();
+// // const app = express();
 
-const router = express.Router();
+// const router = express.Router();
 
-// RESTful Route Declarations
+// // RESTful Route Declarations
 
-router.get('/users/:id', getOneUsers);
-router.post('/users', createUsers);
-
-
-// RESTful Route Handlers
-async function getOneUsers(req, res) {
-  let theUsers = await usersCollection.read();
-  res.status(200).json(theUsers);
-}
+// router.get('/users/:id', getOneUsers);
+// router.post('/users', createUsers);
 
 
-
-async function createUsers(req, res) {
-  let obj = req.body;
-  let newUsers = await usersCollection.create(obj);
-  res.status(200).json(newUsers);
-}
+// // RESTful Route Handlers
+// async function getOneUsers(req, res) {
+//   let theUsers = await usersCollection.read();
+//   res.status(200).json(theUsers);
+// }
 
 
 
-module.exports = router;
+// async function createUsers(req, res) {
+//   let obj = req.body;
+//   let newUsers = await usersCollection.create(obj);
+//   res.status(200).json(newUsers);
+// }
+
+
+
+// module.exports = router;
+// // 

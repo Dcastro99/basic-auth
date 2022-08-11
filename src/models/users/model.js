@@ -27,7 +27,7 @@ const userModel = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const payload = { username: this.username, role: this.role };
-        return jwt.sign(payload, SECRET);
+        return jwt.sign(payload, SECRET, { expiresIn: process.env.JWTEXPIRES });
       },
 
     },
@@ -39,7 +39,7 @@ const userModel = (sequelize, DataTypes) => {
   model.beforeCreate(async (user, options) => {
     const hashedPassword = await bcrypt.hash(user.password, HASH_STRENGTH);
     user.password = hashedPassword;
-    user.role = 'user';
+    user.role;
   });
 
 
