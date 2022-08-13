@@ -11,6 +11,7 @@ beforeAll(async () => {
     .post('/signup')
     .send({ username: 'test user', password: 'test password', role: 'admin' });
   signupRes = JSON.parse(res.text);
+  console.log(signupRes);
 });
 afterAll(async () => {
   await db.drop();
